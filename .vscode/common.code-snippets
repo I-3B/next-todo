@@ -1,0 +1,41 @@
+{
+  "Functional Component by filename": {
+    "scope": "typescriptreact",
+    "prefix": "ffcf",
+    "body": [
+      "export type ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}$1Props = {};",
+      "export function ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}$1 ({}: ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}$1Props) {",
+      " return <>$2</>",
+      "};"
+    ],
+    "description": "Create a functional component by the filename"
+  },
+  "Next Page": {
+    "scope": "typescriptreact",
+    "prefix": "page",
+    "body": [
+      "import { PageProps } from '@/types/next';",
+      "import type { Metadata } from 'next';",
+      "",
+      "export const metadata: Metadata = {};",
+      "",
+      "export default function Page({ }: PageProps) {",
+      "  return <>$2</>;",
+      "}"
+    ],
+    "description": "Next Page component"
+  },
+  "Next Layout": {
+    "scope": "typescriptreact",
+    "prefix": "layout",
+    "body": [
+      "import { LayoutProps } from '@/types/next';",
+      "",
+      "export default function Layout({ children }: LayoutProps) {",
+      "  $2",
+      "  return <>{children}</>;",
+      "};"
+    ],
+    "description": "Next Layout component"
+  }
+}
