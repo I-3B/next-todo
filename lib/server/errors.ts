@@ -47,7 +47,7 @@ export class AppError extends Error {
 }
 
 // Kysely error handling logic
-export function KyselyAppError(
+export function kyselyAppError(
   e: unknown,
   cbOrResourceName: string | ((e: DatabaseError) => { message: string; status: HttpStatusCode }),
   errMsgFactoryMethod?: keyof typeof errMsgFactory,

@@ -13,12 +13,16 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/ui/form/form-input";
 import { FormPasswordInput } from "@/components/ui/form/form-password-input";
 import { FormSubmit } from "@/components/ui/form/form-submit";
+import { Link } from "@/components/ui/link";
 import { Stack } from "@/components/ui/stack";
 import { COOKIES } from "@/constants/cookies";
 import { setCookie } from "@/lib/client/cookies";
 import { formName } from "@/lib/client/form";
 import { handleActionSubmit } from "@/lib/server-action";
-import { AuthRegisterDto, PasswordSchema } from "@/services/auth/schemas/register";
+import {
+  AuthRegisterDto,
+  PasswordSchema,
+} from "@/services/auth/schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -62,19 +66,28 @@ export function RegisterForm({}: RegisterFormProps) {
             <CardTitle className="self-center">
               <Logo />
             </CardTitle>
-            <CardDescription className="flex text-foreground flex-col text-center text-sm md:text-base">
+            <CardDescription className="flex flex-col text-center text-sm text-foreground md:text-base">
               Create New Account
             </CardDescription>
           </CardHeader>
-          <CardContent className="pb-0 md:pb-6">
+          <CardContent>
             <Stack gap="form">
               <FormInput name={n("email")} label="Email" />
               <FormPasswordInput name={n("password")} label="Password" />
-              <FormPasswordInput name={n("confirmPassword")} label="Confirm Password" />
+              <FormPasswordInput
+                name={n("confirmPassword")}
+                label="Confirm Password"
+              />
             </Stack>
           </CardContent>
           <CardFooter className="justify-center">
-            <FormSubmit />
+            <Stack className="gap-1">
+              <FormSubmit />
+              <p>
+                Already have an account?{" "}
+                <Link href="/auth/sign-in">Sign In</Link>
+              </p>
+            </Stack>
           </CardFooter>
         </Card>
       </form>

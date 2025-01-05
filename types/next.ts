@@ -1,13 +1,21 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
 export interface PageProps<
-  TParams extends object = object,
-  TSeach extends object = Record<string, string | string[] | undefined>,
+  TParams extends Promise<
+    Record<string, string | string[] | undefined>
+  > = Promise<Record<string, string | string[] | undefined>>,
+  TSearch extends Promise<
+    Record<string, string | string[] | undefined>
+  > = Promise<Record<string, string | string[] | undefined>>,
 > {
-  params: TParams
-  searchParams: TSeach
+  params: TParams;
+  searchParams: TSearch;
 }
-export interface LayoutProps<TParams extends object = object> {
-  params: TParams
-  children: ReactNode
+export interface LayoutProps<
+  TParams extends Promise<
+    Record<string, string | string[] | undefined>
+  > = Promise<Record<string, string | string[] | undefined>>,
+> {
+  params: TParams;
+  children: ReactNode;
 }

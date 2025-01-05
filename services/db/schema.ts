@@ -35,7 +35,19 @@ export interface Session {
   user_id: string;
 }
 
+export interface Todo {
+  completed: Generated<boolean>;
+  created_at: Generated<Timestamp>;
+  deleted_at: Timestamp | null;
+  description: string | null;
+  id: Generated<string>;
+  title: string;
+  updated_at: Generated<Timestamp>;
+  user_id: string;
+}
+
 export interface User {
+  created_at: Generated<Timestamp>;
   email: string;
   email_verified: Timestamp | null;
   id: Generated<string>;
@@ -53,6 +65,7 @@ export interface VerificationToken {
 export interface DB {
   account: Account;
   session: Session;
+  todo: Todo;
   user: User;
   verification_token: VerificationToken;
 }

@@ -16,7 +16,6 @@ export const nextAuthConfig = {
       },
       async authorize(credentials) {
         if (credentials) {
-          console.log("authorize", await api.auth.validateUser(credentials));
           return await api.auth.validateUser(credentials);
         }
         return null;
@@ -31,16 +30,8 @@ export const nextAuthConfig = {
   },
   pages: undefined,
   callbacks: {
-    jwt: async ({ token, user }) => {
-      if (user) {
-        token.user = {
-          ...user,
-        };
-      }
-      return token;
-    },
-
-    session: async ({ session }) => {
+    session: async ({ session, token }) => {
+      session.user = { id: token.sub ?? "", email: session.user.email };
       return session;
     },
   },

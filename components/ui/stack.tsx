@@ -8,8 +8,8 @@ export const stackVariants = cva("flex flex-col", {
     gap: {
       default: "",
       form: "gap-2 sm:gap-4",
-      lg: "gap-2 sm:gap-5 md:gap-8",
-      xl: "gap-4 sm:gap-5 md:gap-12",
+      list: "gap-2",
+      xl: "gap-4",
     },
   },
   defaultVariants: {
@@ -18,7 +18,12 @@ export const stackVariants = cva("flex flex-col", {
 });
 export type StackProps = ComponentPropsWithoutRef<"div"> &
   VariantProps<typeof stackVariants> & { asChild?: boolean };
-export function Stack({ gap, className, asChild = false, ...props }: StackProps) {
+export function Stack({
+  gap,
+  className,
+  asChild = false,
+  ...props
+}: StackProps) {
   const Comp = asChild ? Slot : "div";
   return <Comp {...props} className={stackVariants({ gap, className })} />;
 }

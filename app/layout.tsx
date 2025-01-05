@@ -1,12 +1,14 @@
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Todo App",
-    default: "Todo App",
+    template: "%s | Next Todo",
+    default: "Next Todo",
   },
   description: "Fullstack Next.js Todo App",
 };
@@ -20,8 +22,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          {children}
-          <Toaster closeButton />
+          <NuqsAdapter>{children}</NuqsAdapter>
+          <Toaster closeButton richColors />
         </Providers>
       </body>
     </html>

@@ -1,22 +1,18 @@
-import * as React from 'react'
+import * as React from "react";
 
-import { Input } from '../input'
-import type { FormFieldItemProps } from './form-field-item'
-import { FormFieldItem } from './form-field-item'
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
+import { Input } from "../input";
+import type { FormFieldItemProps } from "./form-field-item";
+import { FormFieldItem } from "./form-field-item";
 
-export type FormInputProps<C extends { [k: string]: any } = any> =
-  {
-    InputProps?: Omit<
-      React.ComponentPropsWithoutRef<typeof Input>,
-      'name'
-    >
-    required?: boolean
-  } &
-  Omit<FormFieldItemProps<C>, 'children'> & Pick<
+export type FormInputProps<C extends { [k: string]: any } = any> = {
+  InputProps?: Omit<React.ComponentPropsWithoutRef<typeof Input>, "name">;
+  required?: boolean;
+} & Omit<FormFieldItemProps<C>, "children"> &
+  Pick<
     React.ComponentPropsWithoutRef<typeof Input>,
-      'type' | 'placeholder' | 'disabled'
-  >
+    "type" | "placeholder" | "disabled"
+  >;
 
 const FormInput = React.forwardRef<HTMLDivElement, FormInputProps>(
   (
@@ -36,29 +32,29 @@ const FormInput = React.forwardRef<HTMLDivElement, FormInputProps>(
       <FormFieldItem
         {...props}
         ref={ref}
-        label={(
-          required
-            ? (
-                <>
-                  {label}
-                  {required && <span className="text-red-500">*</span>}
-                </>
-              )
-            : label
-        )}
+        label={
+          required ? (
+            <>
+              {label}
+              {required && <span className="text-red-500">*</span>}
+            </>
+          ) : (
+            label
+          )
+        }
       >
-        {field => (
+        {(field) => (
           <Input
             {...field}
             {...{ type, placeholder, disabled }}
             {...InputProps}
-            className={cn(inputClassName, 'min-w-full')}
+            className={cn(inputClassName, "min-w-full")}
           />
         )}
       </FormFieldItem>
-    )
+    );
   },
-)
-FormInput.displayName = 'FormInput'
+);
+FormInput.displayName = "FormInput";
 
-export { FormInput }
+export { FormInput };

@@ -1,13 +1,16 @@
+import { todoParserCache } from "@/components/todo/search-params";
+import { TodoCreateForm } from "@/components/todo/todo-create-form";
+import { TodoFilter } from "@/components/todo/todo-filter";
+import { TodoList } from "@/components/todo/todo-list";
 import { PageProps } from "@/types/next";
-import type { Metadata } from "next";
-import { Logout } from "./logout";
 
-export const metadata: Metadata = {};
-
-export default function Page({}: PageProps) {
+export default async function Page({ searchParams }: PageProps) {
+  todoParserCache.parse(await searchParams);
   return (
-    <div className="justify-center mt-10 flex w-full">
-      <Logout />
+    <div className="mx-auto mt-10 flex max-w-sm flex-col justify-center">
+      <TodoCreateForm />
+      <TodoFilter />
+      <TodoList filter={todoParserCache.all()} />
     </div>
   );
 }

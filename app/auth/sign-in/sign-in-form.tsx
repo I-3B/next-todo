@@ -13,6 +13,7 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/ui/form/form-input";
 import { FormPasswordInput } from "@/components/ui/form/form-password-input";
 import { FormSubmit } from "@/components/ui/form/form-submit";
+import { Link } from "@/components/ui/link";
 import { Stack } from "@/components/ui/stack";
 import { handleActionSubmit } from "@/lib/server-action";
 import { AuthRegisterDto } from "@/services/auth/schemas/register";
@@ -49,28 +50,30 @@ export function SignInForm() {
             onSuccess: () => {
               router.replace("/");
             },
-          }
+          },
         )}
         className="space-y-4"
       >
-        {" "}
         <Card className="m-5 sm:mx-auto sm:max-w-lg">
           <CardHeader>
             <CardTitle className="self-center">
               <Logo />
             </CardTitle>
-            <CardDescription className="flex text-foreground flex-col text-center text-sm md:text-base">
+            <CardDescription className="flex flex-col text-center text-sm text-foreground md:text-base">
               Sign-in into your account
             </CardDescription>
           </CardHeader>
-          <CardContent className="pb-0 md:pb-6">
+          <CardContent>
             <Stack gap="form">
               <FormInput name="email" label="Email" />
               <FormPasswordInput name="password" label="Password" />
             </Stack>
           </CardContent>
-          <CardFooter className="justify-center">
+          <CardFooter className="flex-col items-center gap-1">
             <FormSubmit>Sign In</FormSubmit>
+            <p>
+              Don't have an account? <Link href="/auth/register">Register</Link>
+            </p>
           </CardFooter>
         </Card>
       </form>
