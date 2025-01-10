@@ -1,6 +1,10 @@
 "use client";
 
-import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  isServer,
+} from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 
@@ -31,9 +35,16 @@ export type ProvidersProps = {
 };
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider defaultTheme="system" themes={["light", "dark"]} attribute="class" enableSystem>
+    <ThemeProvider
+      defaultTheme="system"
+      themes={["light", "dark"]}
+      attribute="class"
+      enableSystem
+    >
       <SessionProvider>
-        <QueryClientProvider client={getQueryClient()}>{children}</QueryClientProvider>
+        <QueryClientProvider client={getQueryClient()}>
+          {children}
+        </QueryClientProvider>
       </SessionProvider>
     </ThemeProvider>
   );

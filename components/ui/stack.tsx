@@ -9,7 +9,7 @@ export const stackVariants = cva("flex flex-col", {
       default: "",
       form: "gap-2 sm:gap-4",
       list: "gap-2",
-      xl: "gap-4",
+      lg: "gap-4",
     },
   },
   defaultVariants: {

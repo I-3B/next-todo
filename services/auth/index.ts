@@ -2,8 +2,8 @@ import { AppError } from "@/lib/server/errors";
 import { errMsgFactory } from "@/lib/server/message-factory";
 import { validateSchema } from "@/lib/server/utils";
 import { db } from "@/services/db";
+import { z } from "@hono/zod-openapi";
 import bcrypt from "bcrypt";
-import { z } from "zod";
 import { AuthRegisterDto } from "./schemas/register";
 
 export const auth = {

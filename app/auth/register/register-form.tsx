@@ -23,11 +23,11 @@ import {
   AuthRegisterDto,
   PasswordSchema,
 } from "@/services/auth/schemas/register";
+import { z } from "@hono/zod-openapi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import action from "./action";
 const schema = AuthRegisterDto.extend({
   confirmPassword: PasswordSchema,

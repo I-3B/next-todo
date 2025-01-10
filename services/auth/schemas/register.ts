@@ -1,11 +1,16 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 export const PasswordSchema = z
   .string()
-  .min(8)
-  .max(20)
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])(?!.*\s).{8,20}$/, {
-    message:
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+  .min(8, { message: "Password must be at least 8 characters long" })
+  .regex(/[A-Z]/, {
+    message: "Password must contain at least one uppercase letter",
+  })
+  .regex(/[a-z]/, {
+    message: "Password must contain at least one lowercase letter",
+  })
+  .regex(/[0-9]/, { message: "Password must contain at least one number" })
+  .regex(/[^A-Za-z0-9]/, {
+    message: "Password must contain at least one special character",
   });
 export const AuthRegisterDto = z.object({
   email: z.string().email(),

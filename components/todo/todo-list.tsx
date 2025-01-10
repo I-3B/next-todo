@@ -1,6 +1,6 @@
 import { api } from "@/services/api";
 import { todoFindManyQuerySchema } from "@/services/todo/schemas/find-many";
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { PaginationButtons } from "../ui/pagination-buttons";
 import { Stack } from "../ui/stack";
 import { TodoItem } from "./todo-item";

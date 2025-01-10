@@ -1,6 +1,6 @@
+import { z } from "@hono/zod-openapi";
 import { NoResultError } from "kysely";
 import { DatabaseError } from "pg";
-import { z } from "zod";
 import { errMsgFactory } from "./message-factory";
 
 // Define HTTP status codes
@@ -16,19 +16,26 @@ export const HttpStatusCodes = {
 export type HttpStatusCode = keyof typeof HttpStatusCodes;
 
 function formatZodErrors(issues: z.ZodIssue[]) {
-  return issues.reduce((acc, issue) => {
-    const key = issue.path.join(".");
-    acc[key] = issue.message;
-    return acc;
-  }, {} as Record<string, string>);
+  return issues.reduce(
+    (acc, issue) => {
+      const key = issue.path.join(".");
+      acc[key] = issue.message;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 }
 
 // Unified AppError class for handling errors
 export class AppError extends Error {
-  public readonly statusCode: number;
+  public readonly statusCode: (typeof HttpStatusCodes)[keyof typeof HttpStatusCodes];
   public readonly validationErrors?: Record<string, string>;
 
-  constructor(message: string, status: HttpStatusCode = "BAD_REQUEST", err?: Error | unknown) {
+  constructor(
+    message: string,
+    status: HttpStatusCode = "BAD_REQUEST",
+    err?: Error | unknown,
+  ) {
     super();
 
     this.message = message;
@@ -49,9 +56,11 @@ export class AppError extends Error {
 // Kysely error handling logic
 export function kyselyAppError(
   e: unknown,
-  cbOrResourceName: string | ((e: DatabaseError) => { message: string; status: HttpStatusCode }),
+  cbOrResourceName:
+    | string
+    | ((e: DatabaseError) => { message: string; status: HttpStatusCode }),
   errMsgFactoryMethod?: keyof typeof errMsgFactory,
-  statusArg?: HttpStatusCode
+  statusArg?: HttpStatusCode,
 ) {
   let msg = "Something went wrong";
   let status: HttpStatusCode = "INTERNAL_SERVER_ERROR";
@@ -83,7 +92,7 @@ export function kyselyAppError(
     }
   }
 
-  new AppError(msg, statusArg ?? status, e);
+  return new AppError(msg, statusArg ?? status, e);
 }
 
 // Database error handling logic
@@ -97,7 +106,7 @@ export function handleDbError(
     "22003"?: string;
     "22001"?: string;
   },
-  defaultMessage = "Something went wrong"
+  defaultMessage = "Something went wrong",
 ) {
   let message = defaultMessage;
   let status: HttpStatusCode = "INTERNAL_SERVER_ERROR";
@@ -106,27 +115,37 @@ export function handleDbError(
 
   switch (error.code) {
     case "23505":
-      message = customMessage?.[23505] ?? `Unique constraint violation: ${keys.join(", ")}`;
+      message =
+        customMessage?.[23505] ??
+        `Unique constraint violation: ${keys.join(", ")}`;
       status = "CONFLICT";
       break;
     case "23503":
-      message = customMessage?.[23503] ?? `Foreign key violation: ${keys.join(", ")}`;
+      message =
+        customMessage?.[23503] ?? `Foreign key violation: ${keys.join(", ")}`;
       status = "BAD_REQUEST";
       break;
     case "23502":
-      message = customMessage?.[23502] ?? `Not null constraint violation: ${keys.join(", ")}`;
+      message =
+        customMessage?.[23502] ??
+        `Not null constraint violation: ${keys.join(", ")}`;
       status = "BAD_REQUEST";
       break;
     case "22P02":
-      message = customMessage?.["22P02"] ?? `Invalid input syntax: ${keys.join(", ")}`;
+      message =
+        customMessage?.["22P02"] ?? `Invalid input syntax: ${keys.join(", ")}`;
       status = "BAD_REQUEST";
       break;
     case "22003":
-      message = customMessage?.[22003] ?? `Numeric value out of range: ${keys.join(", ")}`;
+      message =
+        customMessage?.[22003] ??
+        `Numeric value out of range: ${keys.join(", ")}`;
       status = "BAD_REQUEST";
       break;
     case "22001":
-      message = customMessage?.[22001] ?? `String length out of range: ${keys.join(", ")}`;
+      message =
+        customMessage?.[22001] ??
+        `String length out of range: ${keys.join(", ")}`;
       status = "BAD_REQUEST";
       break;
   }

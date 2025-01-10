@@ -1,5 +1,5 @@
 import { getSession } from "@/services/auth/next-auth";
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { AppError } from "./errors";
 
 export function validateSchema<TSchemaOutput, TSchemaInput>(
