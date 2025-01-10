@@ -19,7 +19,7 @@ export function TodoDetails({ id }: TodoDetailsProps) {
         <>
           <h2 className="flex items-center gap-1 text-2xl font-bold">
             {query.data.title}{" "}
-            {query.data.completed && <CheckCircle className="text-base" />}
+            {query.data.completed && <CheckCircle className="mt-1 w-5" />}
           </h2>
           <p className="text-lg">{query.data.description}</p>
           <div className="flex flex-col gap-1 text-sm">

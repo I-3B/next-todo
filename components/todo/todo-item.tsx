@@ -2,7 +2,7 @@
 import { revalidateCurrentPath } from "@/lib/client/next-cache-client";
 import { cn } from "@/lib/utils";
 import { TodoFindManyItem } from "@/services/todo/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Check, CircleCheckBig, RotateCcw, Trash, X } from "lucide-react";
 import { toast } from "sonner";
@@ -26,11 +26,13 @@ import {
   InplaceDisplay,
 } from "../ui/in-place";
 import { todoCompleteAction, todoRemoveAction } from "./actions";
+import { todoQueries } from "./queries";
 import { TodoDetails } from "./todo-details";
 export type TodoItemProps = { todo: TodoFindManyItem };
 export function TodoItem({ todo }: TodoItemProps) {
   const remove = useMutation({ mutationFn: todoRemoveAction });
   const complete = useMutation({ mutationFn: todoCompleteAction });
+  const queryClient = useQueryClient();
   return (
     <HoverCard>
       <HoverCardTrigger>
@@ -61,6 +63,9 @@ export function TodoItem({ todo }: TodoItemProps) {
                     onSuccess: () => {
                       toast.success("Marked Todo as complete");
                       revalidateCurrentPath();
+                      queryClient.invalidateQueries(
+                        todoQueries.details({ id: todo.id }),
+                      );
                     },
                   },
                 );
@@ -89,6 +94,9 @@ export function TodoItem({ todo }: TodoItemProps) {
                       onSuccess: () => {
                         toast.success("Todo removed successfully");
                         revalidateCurrentPath();
+                        queryClient.invalidateQueries(
+                          todoQueries.details({ id: todo.id }),
+                        );
                       },
                     });
                   }}
