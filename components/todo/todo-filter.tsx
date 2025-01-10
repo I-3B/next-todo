@@ -23,7 +23,7 @@ export function TodoFilter({}: TodoFilterProps) {
               variant="outline"
               className="gap-1 rounded-xl px-2"
               size="sm"
-              onClick={() => setFilter((filter) => ({ ...filter, search: "" }))}
+              onClick={() => setFilter({ search: "" })}
             >
               <Search className="size-3" /> {filter.search}{" "}
               <X className="size-3" />
@@ -34,9 +34,7 @@ export function TodoFilter({}: TodoFilterProps) {
               variant="outline"
               className="gap-1 rounded-xl px-2"
               size="sm"
-              onClick={() =>
-                setFilter((filter) => ({ ...filter, status: "all" }))
-              }
+              onClick={() => setFilter({ status: "all" })}
             >
               <CheckCircle className="size-3" /> Completed{" "}
               <X className="size-3" />
@@ -60,7 +58,7 @@ export function TodoFilter({}: TodoFilterProps) {
             value={filter.search}
             className="flex-1"
             onChange={(search) => {
-              setFilter(({ status }) => ({ status, search, page: 1 }));
+              setFilter({ search, page: 1 });
             }}
             placeholder="Search"
           />
@@ -68,9 +66,8 @@ export function TodoFilter({}: TodoFilterProps) {
             size="icon"
             variant="outline"
             onClick={() => {
-              setFilter(({ search, status }) => ({
+              setFilter(({ status }) => ({
                 status: status === "all" ? "completed" : "all",
-                search,
                 page: 1,
               }));
             }}

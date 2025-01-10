@@ -26,13 +26,13 @@ export function TodoDetails({ id }: TodoDetailsProps) {
             <div className="flex gap-1">
               <span>Created at</span>
               <time dateTime={query.data.createdAt}>
-                {dayjs(query.data.createdAt).format("YY/MM/DD hh:mm")}
+                {dayjs(query.data.createdAt).format("YY/MM/DD hh:mm A")}
               </time>
             </div>
             <div className="flex gap-1">
               <span>Last updated at</span>
               <time dateTime={query.data.updatedAt}>
-                {dayjs(query.data.updatedAt).format("YY/MM/DD hh:mm")}
+                {dayjs(query.data.updatedAt).format("YY/MM/DD hh:mm A")}
               </time>
             </div>
           </div>
