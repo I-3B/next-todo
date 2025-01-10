@@ -17,15 +17,14 @@ export function InputDebounced({
   const [localValue, setLocalValue] = useState(String(value ?? ""));
   const debouncedValue = useDebounce(localValue, debounceTime);
 
-  // Trigger the parent onChange only when the debounced value changes
   React.useEffect(() => {
     if (onChange && debouncedValue !== value) {
       onChange(debouncedValue);
     }
-  }, [debouncedValue, onChange]);
+  }, [debouncedValue, onChange, value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalValue(event.target.value); // Update local state for immediate input response
+    setLocalValue(event.target.value);
   };
 
   return <Input value={localValue} onChange={handleChange} {...props} />;
