@@ -45,7 +45,7 @@ export function TodoItem({ todo }: TodoItemProps) {
               className="ms-auto text-xs text-muted-foreground"
               suppressHydrationWarning
             >
-              {dayjs(todo.createdAt).format("YY/MM/DD hh:mm")}
+              {dayjs(todo.createdAt).format("YY/MM/DD hh:mm A")}
             </p>
           </CardHeader>
           <CardContent>
