@@ -15,8 +15,6 @@ import { FormPasswordInput } from "@/components/ui/form/form-password-input";
 import { FormSubmit } from "@/components/ui/form/form-submit";
 import { Link } from "@/components/ui/link";
 import { Stack } from "@/components/ui/stack";
-import { COOKIES } from "@/constants/cookies";
-import { setCookie } from "@/lib/client/cookies";
 import { formName } from "@/lib/client/form";
 import { handleActionSubmit } from "@/lib/server-action";
 import {
@@ -56,7 +54,6 @@ export function RegisterForm({}: RegisterFormProps) {
               redirect: false,
               ...data,
             });
-            setCookie(COOKIES.HAS_VISITED, "true");
             router.replace("/");
           },
         })}
