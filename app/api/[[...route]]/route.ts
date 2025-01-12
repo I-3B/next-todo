@@ -5,7 +5,7 @@ import { handle } from "hono/vercel";
 import { todoAPI } from "./todo";
 
 const app = new OpenAPIHono().basePath("/api");
-app.get("/ui", swaggerUI({ url: "/api/doc" }));
+app.get("/ui", swaggerUI({ url: "/api/doc", title: "Next Todo" }));
 const honoApi = app.route("/todos", todoAPI);
 
 app.onError((error, c) => {
@@ -19,7 +19,7 @@ app.doc("/doc", {
   openapi: "3.0.0",
   info: {
     version: "1.0.0",
-    title: "My API",
+    title: "Next Todo",
   },
 });
 export const GET = handle(app);
