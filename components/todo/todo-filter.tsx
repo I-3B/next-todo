@@ -4,6 +4,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
 import { CheckCircle, Filter, Search, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
 import { Button } from "../ui/button";
@@ -72,10 +73,9 @@ export function TodoFilter({}: TodoFilterProps) {
               }));
             }}
           >
-            {filter.status === "all" && <CheckCircle />}
-            {filter.status === "completed" && (
-              <CheckCircle className="text-success" />
-            )}
+            <CheckCircle
+              className={cn(filter.status === "completed" && "text-success")}
+            />
           </Button>
         </div>
       </CollapsibleContent>

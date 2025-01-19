@@ -3,7 +3,7 @@ import { validateSchema, validateUserSession } from "@/lib/server/utils";
 import { z } from "@hono/zod-openapi";
 import { db } from "../db";
 import { todoCreateSchema } from "./schemas/create";
-import { todoFindManyQuerySchema } from "./schemas/find-many";
+import { todoFindManyParamSchema } from "./schemas/find-many";
 import { TodoFindOneParamSchema } from "./schemas/find-one";
 import { todoToggleCompleteSchema } from "./schemas/toggle-complete";
 
@@ -48,9 +48,9 @@ export const todo = {
       });
     return todo;
   },
-  findMany: async (searchParams: z.input<typeof todoFindManyQuerySchema>) => {
+  findMany: async (searchParams: z.input<typeof todoFindManyParamSchema>) => {
     const user = await validateUserSession();
-    const dto = validateSchema(todoFindManyQuerySchema, searchParams);
+    const dto = validateSchema(todoFindManyParamSchema, searchParams);
     const query = db
       .selectFrom("todo")
       .where("deleted_at", "is", null)

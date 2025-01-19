@@ -1,5 +1,6 @@
 "use client";
 import { revalidateCurrentPath } from "@/lib/client/next-cache-client";
+import { mutationAction } from "@/lib/server-action";
 import { cn } from "@/lib/utils";
 import { TodoFindManyItem } from "@/services/todo/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -30,8 +31,10 @@ import { todoQueries } from "./queries";
 import { TodoDetails } from "./todo-details";
 export type TodoItemProps = { todo: TodoFindManyItem };
 export function TodoItem({ todo }: TodoItemProps) {
-  const remove = useMutation({ mutationFn: todoRemoveAction });
-  const complete = useMutation({ mutationFn: todoCompleteAction });
+  const remove = useMutation({ mutationFn: mutationAction(todoRemoveAction) });
+  const complete = useMutation({
+    mutationFn: mutationAction(todoCompleteAction),
+  });
   const queryClient = useQueryClient();
   return (
     <HoverCard>

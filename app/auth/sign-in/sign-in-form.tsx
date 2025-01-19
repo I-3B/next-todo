@@ -15,15 +15,16 @@ import { FormPasswordInput } from "@/components/ui/form/form-password-input";
 import { FormSubmit } from "@/components/ui/form/form-submit";
 import { Link } from "@/components/ui/link";
 import { Stack } from "@/components/ui/stack";
-import { handleActionSubmit } from "@/lib/server-action";
-import { AuthRegisterDto } from "@/services/auth/schemas/register";
+import { handleActionSubmit } from "@/lib/client/form";
+import { serverAction } from "@/lib/server-action";
+import { authRegisterParamSchema } from "@/services/auth/schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-const schema = AuthRegisterDto;
+const schema = authRegisterParamSchema;
 
 export function SignInForm() {
   const router = useRouter();
@@ -40,12 +41,13 @@ export function SignInForm() {
       <form
         onSubmit={handleActionSubmit(
           form,
-          (data) =>
+          serverAction((data) =>
             signIn("credentials", {
               email: data.email,
               password: data.password,
               redirect: false,
             }),
+          ),
           {
             onSuccess: () => {
               router.replace("/");

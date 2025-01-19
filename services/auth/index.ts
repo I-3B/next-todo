@@ -1,10 +1,10 @@
-import { AppError } from "@/lib/server/errors";
+import { AppError } from "@/lib/app-error";
 import { errMsgFactory } from "@/lib/server/message-factory";
 import { validateSchema } from "@/lib/server/utils";
 import { db } from "@/services/db";
 import { z } from "@hono/zod-openapi";
 import bcrypt from "bcrypt";
-import { AuthRegisterDto } from "./schemas/register";
+import { authRegisterParamSchema } from "./schemas/register";
 
 export const auth = {
   validateUser: async (credentials: Record<"email" | "password", string>) => {
@@ -19,14 +19,17 @@ export const auth = {
     if (!passwordMatch) return null;
     return user;
   },
-  register: async (credentials: z.infer<typeof AuthRegisterDto>) => {
-    const dto = validateSchema(AuthRegisterDto, credentials);
+  register: async (credentials: z.infer<typeof authRegisterParamSchema>) => {
+    const dto = validateSchema(authRegisterParamSchema, credentials);
     const existingUser = await db
       .selectFrom("user")
       .selectAll()
       .where("email", "=", dto.email)
       .executeTakeFirst();
-    if (existingUser) throw new AppError(errMsgFactory.exists("email"));
+    if (existingUser)
+      throw new AppError({
+        validationErrors: { email: errMsgFactory.exists("email") },
+      });
     const SALT_ROUNDS = 10;
     const hashedPassword = await bcrypt.hash(dto.password, SALT_ROUNDS);
     const newUser = await db

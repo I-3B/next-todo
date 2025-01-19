@@ -1,5 +1,5 @@
 import { z } from "@hono/zod-openapi";
-export const PasswordSchema = z
+export const passwordSchema = z
   .string()
   .min(8, { message: "Password must be at least 8 characters long" })
   .regex(/[A-Z]/, {
@@ -12,7 +12,7 @@ export const PasswordSchema = z
   .regex(/[^A-Za-z0-9]/, {
     message: "Password must contain at least one special character",
   });
-export const AuthRegisterDto = z.object({
+export const authRegisterParamSchema = z.object({
   email: z.string().email(),
-  password: PasswordSchema,
+  password: passwordSchema,
 });

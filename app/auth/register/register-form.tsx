@@ -15,11 +15,10 @@ import { FormPasswordInput } from "@/components/ui/form/form-password-input";
 import { FormSubmit } from "@/components/ui/form/form-submit";
 import { Link } from "@/components/ui/link";
 import { Stack } from "@/components/ui/stack";
-import { formName } from "@/lib/client/form";
-import { handleActionSubmit } from "@/lib/server-action";
+import { formName, handleActionSubmit } from "@/lib/client/form";
 import {
-  AuthRegisterDto,
-  PasswordSchema,
+  authRegisterParamSchema,
+  passwordSchema,
 } from "@/services/auth/schemas/register";
 import { z } from "@hono/zod-openapi";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,12 +26,14 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import action from "./action";
-const schema = AuthRegisterDto.extend({
-  confirmPassword: PasswordSchema,
-}).refine((data) => data.password === data.confirmPassword, {
-  path: ["confirmPassword"],
-  message: "Passwords do not match!",
-});
+const schema = authRegisterParamSchema
+  .extend({
+    confirmPassword: passwordSchema,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match!",
+  });
 export type RegisterFormProps = {};
 export function RegisterForm({}: RegisterFormProps) {
   const form = useForm<z.infer<typeof schema>>({

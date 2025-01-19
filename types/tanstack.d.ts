@@ -1,4 +1,4 @@
-import { AppError } from "@/lib/server/errors";
+import { AppError } from "@/lib/app-error";
 import "@tanstack/react-query";
 
 declare module "@tanstack/react-query" {

@@ -12,7 +12,7 @@ import type { Route } from "next";
 import { createSerializer, useQueryStates } from "nuqs";
 import type { ReactNode } from "react";
 import { useLocation } from "../hooks/use-location";
-import { paginationParser } from "../shared/pagination-search-params";
+import { paginationParser } from "./pagination-search-params";
 
 type PaginationVariant = "default" | "rounded" | "rounded-number";
 

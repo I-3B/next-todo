@@ -1,5 +1,5 @@
 "use server";
-import { serverAction } from "@/app/auth/register/server-action";
+import { serverAction } from "@/lib/server-action";
 import { api } from "@/services/api";
 
 export const todoCreateAction = serverAction(api.todo.create);

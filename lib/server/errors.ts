@@ -1,57 +1,7 @@
-import { z } from "@hono/zod-openapi";
 import { NoResultError } from "kysely";
 import { DatabaseError } from "pg";
+import { AppError, HttpStatusCode } from "../app-error";
 import { errMsgFactory } from "./message-factory";
-
-// Define HTTP status codes
-export const HttpStatusCodes = {
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  CONFLICT: 409,
-  INTERNAL_SERVER_ERROR: 500,
-} as const;
-
-export type HttpStatusCode = keyof typeof HttpStatusCodes;
-
-function formatZodErrors(issues: z.ZodIssue[]) {
-  return issues.reduce(
-    (acc, issue) => {
-      const key = issue.path.join(".");
-      acc[key] = issue.message;
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
-}
-
-// Unified AppError class for handling errors
-export class AppError extends Error {
-  public readonly statusCode: (typeof HttpStatusCodes)[keyof typeof HttpStatusCodes];
-  public readonly validationErrors?: Record<string, string>;
-
-  constructor(
-    message: string,
-    status: HttpStatusCode = "BAD_REQUEST",
-    err?: Error | unknown,
-  ) {
-    super();
-
-    this.message = message;
-    this.statusCode = HttpStatusCodes[status];
-    if (err) {
-      if (err instanceof z.ZodError) {
-        this.validationErrors = formatZodErrors(err.issues);
-        console.error(err.errors);
-      } else {
-        console.error(err);
-      }
-    }
-
-    Error.captureStackTrace(this, AppError);
-  }
-}
 
 // Kysely error handling logic
 export function kyselyAppError(
@@ -92,7 +42,7 @@ export function kyselyAppError(
     }
   }
 
-  return new AppError(msg, statusArg ?? status, e);
+  return new AppError({ message: msg, status: statusArg ?? status, error: e });
 }
 
 // Database error handling logic

@@ -1,5 +1,5 @@
 "use server";
+import { serverAction } from "@/lib/server-action";
 import { api } from "@/services/api";
-import { serverAction } from "./server-action";
 
 export default serverAction(api.auth.register);
